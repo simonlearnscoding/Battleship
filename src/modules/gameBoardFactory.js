@@ -2,40 +2,41 @@
 
 
 export function gameBoardFactory() {
-        let gameboard = {
-                shipFields: [],
-                missedShots: [],
+    let gameboard = {
+        shipFields: [],
+        missedShots: [],
 
-                //     Gameboards should be able to place ships at specific coordinates by calling the ship factory function.
-                placeShip(ship, x, y, orientation) {
+        //     Gameboards should be able to place ships at specific coordinates by calling the ship factory function.
+        placeShip(ship, x, y, orientation) {
 
 
-                        if (orientation === 'horizontal') {
-                                for (let i = 0, i+ ship.length)
+            for (let i = 0; i <= ship.length; i++)
+                if (orientation === 'horizontal') {
+                    let xvar = x + i;
+                    this.shipFields.push({xvar, y})
+                } else {
+                    let yvar = y + i;
+                    this.shipFields.push({x, yvar})
+                }
+        },
 
-                                ;
-                                }
-                        else {
-
-                        }
-                },
-
-                // a receiveAttack function that takes a pair of coordinates as arguments and then calls the hit function on the ship at those coordinates.
-                receiveAttack(x, y) {
-                        let ship = this.shipFields.find((ship) => ship.x === x && ship.y === y);
-                        if (ship) {
-                                ship.ship.hit();
-                        } else {
-                                this.missedShots.push({
-                                        x: x,
-                                        y: y,
-                                });
-                        }
-                        // Gameboards should be able to report whether or not all of their ships have been sunk.
-                        this.allShipsSunk = this.shipFields.every((ship) => ship.ship.isSunk);
-                },
-        }
-        return gameboard;
+        // a receiveAttack function that takes a pair of coordinates as arguments and then calls the hit function on the ship at those coordinates.
+        receiveAttack(x, y) {
+            //TODO: Review this
+            let ship = this.shipFields.find((ship) => ship.x === x && ship.y === y);
+            if (ship) {
+                ship.ship.hit();
+            } else {
+                this.missedShots.push({
+                    x: x,
+                    y: y,
+                });
+            }
+            // Gameboards should be able to report whether or not all of their ships have been sunk.
+            this.allShipsSunk = this.shipFields.every((ship) => ship.ship.isSunk);
+        },
+    }
+    return gameboard;
 }
 
 // Create Player.
